@@ -1154,4 +1154,11 @@ footer{background:var(--surface-variant);padding:2rem 0;text-align:center;font-s
     display: none !important;
   }
 }
+/* mobile: kill the tiny logo in the search strip */
+@media (max-width: 992px) {
+  .top-bar .top-logo {
+    display: none !important;
+  }
+}
+
 
