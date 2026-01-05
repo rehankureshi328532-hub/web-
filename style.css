@@ -1,0 +1,1149 @@
+
+
+--------------------------------------------------
+/* 1. DESIGN TOKENS (Material 3) */
+:root{
+--primary:#0d47a1;           /* cobalt blue */
+--primary-dark:#002171;
+--primary-light:#e3f2fd;
+--secondary:#217a21;        /* amber accent */
+--secondary-dark:#103d10;
+--surface:#ffffff;
+--surface-variant:#f5f7fa;
+--background:#eceff1;
+--on-surface:#212121;
+--on-surface-variant:#546e7a;
+--outline:#b0bec5;
+  /* keep the rest untouched */
+  --radius:12px;
+  --radius-sm:8px;
+ --font:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --shadow:0 2px 6px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.04);
+  --shadow-lg:0 8px 24px rgba(0,0,0,.12),0 4px 8px rgba(0,0,0,.06);
+  --transition:.25s cubic-bezier(.4,0,.2,1);
+}
+
+/* 2. GLOBAL RESET */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--font);
+  background:var(--background);
+  color:var(--on-surface);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+ul{list-style:none}
+button,input,textarea{font:inherit}
+button{cursor:pointer;border:none;background:none}
+
+/* 3. REUSABLE UTILITIES 
+.container{width:90%;max-width:1200px;margin-inline:auto}
+.hidden{display:none}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}*/
+
+/* 4. HEADER / NAVBAR */
+.site-header{
+  position:sticky;
+  top:0;
+  z-index:1000;
+  background:var(--surface);
+  border-bottom:1px solid var(--outline);
+  box-shadow:0 1px 3px rgba(0,0,0,.08);
+  backdrop-filter:blur(8px);          /* glass hint */
+}
+.nav-inner{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:.5rem 0;                    /* tighter vertical space */
+  height:64px;                        /* fixed height = perfect centring */
+}
+.logo{
+  font-size:1.5rem;
+  font-weight:700;
+  color:var(--primary);
+  letter-spacing:-.5px;
+}
+/* ===== LOGO STYLES ===== */
+.logo img {
+  height: 48px;              /* Desktop size */
+  width: auto;
+  object-fit: contain;
+  display: block;
+}
+
+/* Navbar alignment fix */
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Mobile logo size */
+@media (max-width: 768px) {
+  .logo img {
+    height: 38px;           /* Mobile size */
+  }
+}
+
+
+/* --- hamburger (mobile) --- */
+.menu-toggle:hover{background:var(--primary-light)}
+
+/* --- centre nav links (desktop) --- */
+.nav-center{
+  display:flex;
+  align-items:center;
+  gap:2rem;
+}
+.nav-links{
+  display:flex;
+  align-items:center;
+  gap:1.25rem;
+}
+.nav-item{position:relative}
+.nav-link{
+  padding:.5rem .75rem;
+  border-radius:var(--radius-sm);
+  font-weight:500;
+  transition:background var(--transition),color var(--transition);
+}
+.nav-link:hover{background:var(--primary-light);color:var(--primary-dark)}
+/* Hide by default (Desktop) */
+.menu-toggle {
+  display: none;
+  font-size: 26px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* Show only on Mobile */
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block;
+  }
+}
+ /* ==========================================================
+   TOP UTILITY BAR – one single, conflict-free block
+   ========================================================== */
+.top-bar{
+  display:none;                 /* hidden on desktop by default */
+  background:#fff;
+  border-bottom:1px solid #e6e9ef;
+  padding:8px 0;
+  position:sticky;
+  top:0;
+  z-index:1250;
+}
+.top-bar-inner{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  justify-content:space-between;
+}
+.top-logo img{
+  height:36px;
+  width:auto;
+}
+.top-name{
+  font-weight:700;
+  font-size:18px;
+  color:#003366;
+  white-space:nowrap;
+}
+.top-ctas{
+  display:flex;
+  gap:10px;
+}
+.top-call,
+.top-wa{
+  padding:6px 12px;
+  border-radius:6px;
+  font-size:14px;
+  text-decoration:none;
+  color:#fff;
+}
+.top-call{background:#2563eb}
+.top-wa{background:#25d366}
+
+/* ----- show bar only on phones ----- */
+@media(max-width:768px){
+  .top-bar{display:block}
+  .top-bar-inner{
+    flex-wrap:wrap;
+    justify-content:center;
+    text-align:center;
+  }
+  .top-ctas{
+    order:3;
+    width:100%;
+    justify-content:center;
+    margin-top:6px;
+  }
+}
+
+/* ==============================
+   4a. Desktop Mega Menu 
+   ============================== */
+.mega{
+  position:absolute;
+  top:100%;
+  left:0;
+  width:75vw;
+  margin-top:8px;
+  background:#ffffff;            /* ← pure white background */
+  border:1px solid var(--outline);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow-lg);
+  display:none;
+  z-index:999;
+  padding:2rem clamp(1rem, 4vw, 3rem);
+}
+
+/* --- 4-equal columns by default --- */
+.mega-grid{
+  display:grid;
+  grid-template-columns:repeat(4, 1fr);
+  gap:2rem 1.5rem;
+}
+
+/* --- column title --- */
+.mega-col h4{
+  margin:0 0 .75rem;
+  font-size:.8rem;
+  font-weight:600;
+  text-transform:uppercase;
+  letter-spacing:.5px;
+  color:var(--primary-dark);
+}
+
+
+/* ==============================
+   Mega Menu Links – Final Version
+   ============================== */
+
+.mega-col a{
+  display: block;
+  padding: .45rem .25rem;
+  font-size: .9rem;
+  font-weight: 500;
+  color: var(--on-surface-variant, #333);
+  text-decoration: none;
+  border-radius: 6px;
+  transition: 
+    background-color .25s ease,
+    color .25s ease,
+    padding-left .25s ease;
+}
+
+/* Hover / Focus effect */
+.mega-col a:hover,
+.mega-col a:focus{
+  background-color: var(--primary-light, #eef2ff);
+  color: var(--primary-dark, #2563eb);
+  padding-left: .75rem;   /* premium slide effect */
+}
+
+/* "More" link styling */
+.more-link{
+  display: inline-block;
+  margin-top: .5rem;
+  font-weight: 600;
+  color: var(--primary-dark, #2563eb);
+}
+
+/* Mobile safety (no jumpy hover) */
+@media (hover: none){
+  .mega-col a:hover{
+    padding-left: .45rem;
+    background-color: transparent;
+  }
+}
+
+/* 4b. Search */
+.search-wrap{
+  display:flex;
+  align-items:center;
+  background:var(--surface-variant);
+  border-radius:24px;               /* pill shape */
+  padding:.35rem .9rem;
+  min-width:240px;
+  transition:box-shadow var(--transition);
+}
+.search-wrap:focus-within{
+  box-shadow:0 0 0 2px var(--primary-light);
+}
+#searchBox{
+  border:none;
+  background:transparent;
+  flex:1;
+  outline:none;
+  font-size:.95rem;
+}
+.search-btn{
+  padding:.25rem;
+  font-size:1.1rem;
+  color:var(--on-surface-variant);
+  transition:color var(--transition);
+}
+.search-btn:hover{color:var(--primary)}
+
+/* 4c. Nav right icons */
+.nav-right{
+  display:flex;
+  align-items:center;
+  gap:.5rem;
+}
+.icon-btn{
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  display:grid;
+  place-content:center;
+  font-size:1.2rem;
+  transition:background var(--transition);
+}
+.icon-btn:hover{background:var(--primary-light)}
+.icon-btn.primary{
+  background:var(--primary);
+  color:#fff;
+}
+.icon-btn.primary:hover{background:var(--primary-dark)}
+
+/* 5. MOBILE PANEL (slide-from-left) */
+.mobile-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.45);
+  display:none;
+  z-index:1100;
+}
+.mobile-panel{
+  position:fixed;
+  top:0;
+  left:0;
+  bottom:0;
+  width:280px;
+  background:var(--surface);
+  box-shadow:var(--shadow-lg);
+  transform:translateX(-100%);
+  transition:transform var(--transition);
+  z-index:1110;
+  padding:1.25rem 1rem;
+  overflow-y:auto;
+}
+.mobile-panel.open{transform:translateX(0)}
+
+/* 6. MAIN CONTENT SECTIONS */
+section{padding:3rem 0}
+h2{font-size:2rem;margin-bottom:1.25rem;font-weight:700;color:var(--primary-dark)}
+
+
+
+/* 6b. Contact & Forms */
+/* ---- contact form ---- */
+.contact-form{
+  display:flex;
+  flex-direction:column;          /* ← fixed */
+  gap:1rem;
+  max-width:600px;
+  margin-inline:auto;
+}
+.contact-form input,
+.contact-form textarea{
+  width:100%;
+  padding:.75rem 1rem;
+  border:1px solid var(--outline);
+  border-radius:var(--radius-sm);
+  background:var(--surface-variant);
+}
+.contact-form button{
+  align-self:flex-start;
+  padding:.75rem 1.5rem;
+  border-radius:var(--on-surface-variant);
+  background:var(--primary-dark);
+  color:#3508e9;
+  font-weight:500;
+  transition:background var(--transition);
+  background: #2563eb;
+  color: #ffffff;
+  
+}
+.contact-form button:hover{background:var(--primary-dark)}
+
+/* 6c. FAQ */
+.faq-item{border-bottom:1px solid var(--outline);padding:.75rem 0}
+.faq-question{cursor:pointer;font-weight:500;display:flex;justify-content:space-between;align-items:center}
+.faq-question::after{content:"▾";transition:transform var(--transition)}
+.faq-item.open .faq-question::after{transform:rotate(180deg)}
+.faq-answer{
+  display:none;
+  padding:.75rem 0 .5rem 1.2rem;
+  font-size:.95rem;
+  line-height:1.65;
+  color:var(--on-surface-variant);
+  border-left:3px solid var(--primary);
+  background:linear-gradient(90deg, var(--primary-light) 0%, transparent 40%);
+  border-radius:0 8px 8px 0;
+  box-shadow:0 2px 6px rgba(31, 54, 33, 0.05);
+}
+.faq-item.open .faq-answer{display:block}
+
+/* 6d. About Slider */
+.slider{position:relative;max-width:900px;margin-inline:auto;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)}
+.slides{display:flex}
+.slides img{width:100%;display:none}
+.slides img.active{display:block}
+.slider-caption{
+  position:absolute;bottom:0;left:0;right:0;
+  background:rgba(0,0,0,.55);color:#fff;padding:.75rem 1rem;font-size:.9rem;
+}
+.prev,.next{
+  position:absolute;top:50%;transform:translateY(-50%);
+  background:rgba(255,255,255,.85);color:var(--on-surface);
+  width:40px;height:40px;border-radius:50%;cursor:pointer;
+  display:grid;place-content:center;font-size:1.3rem;transition:background var(--transition);
+}
+.prev:hover,.next:hover{background:#fff}
+.prev{left:.75rem}
+.next{right:.75rem}
+
+/* 7. FOOTER */
+footer{background:var(--surface-variant);padding:2rem 0;text-align:center;font-size:.9rem;color:var(--on-surface-variant)}
+
+/* 8. WhatsApp Float */
+.whatsapp-button{
+  position:fixed;bottom:24px;right:24px;z-index:999;
+  width:56px;height:56px;border-radius:50%;background:#25d366;
+  color:#fff;font-size:1.6rem;box-shadow:var(--shadow-lg);
+  display:grid;place-content:center;transition:transform var(--transition);
+}
+.whatsapp-button:hover{transform:scale(1.1)}
+
+/* 9. Download Brochure CTA */
+.download-brochure{
+  display:inline-flex;align-items:center;gap:.5rem;
+  margin:2rem auto;padding:.75rem 1.25rem;
+  background:#003366;color:#fff;border-radius:var(--radius);
+  font-weight:500;transition:background var(--primary-dark);
+}
+.download-brochure:hover{background:#003370}
+
+/* 10. RESPONSIVE */
+@media(max-width:992px){
+  .nav-center{display:none}
+  .menu-toggle{display:block}
+}
+@media(max-width:600px){
+  h2{font-size:1.5rem}
+  .contact-form{flex-direction:column}
+}
+@media (max-width: 1024px){
+  .mega-grid{grid-template-columns:repeat(2, 1fr);}
+}
+@media (max-width: 600px){
+  .mega-grid{grid-template-columns:1fr;}
+  .mega{padding:1.5rem 1rem;}
+}
+/* ==========================================================
+   MOBILE-ONLY  –  native-app feel  (≤ 992 px)
+   ========================================================== */
+@media (max-width: 992px) {
+  /* 1.  kill desktop nav artefacts */
+  .nav-center,
+  .mega {
+    display: none !important;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  /* 2.  taller navbar for thumbs */
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 1200;
+  }
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 68px;
+    padding: 0 1rem;
+  }
+  .logo {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--primary);
+  }
+
+  /* 3.  hamburger 48 × 48 px */
+  .menu-toggle {
+    display: grid;
+    place-content: center;
+    width: 48px;
+    height: 48px;
+    font-size: 1.7rem;
+    border-radius: 6px;
+    transition: background var(--transition);
+  }
+  .menu-toggle:active {
+    background: var(--primary-light);
+  }
+
+  /* 4.  sticky mobile search bar */
+  .search-wrap {
+    position: sticky;
+    top: 68px;
+    z-index: 1190;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.65rem 1rem;
+    background: var(--surface-variant);
+    border-bottom: 1px solid var(--outline);
+    border-radius: 0;
+  }
+  #searchBox {
+    flex: 1;
+    font-size: 16px !important; /* kill iOS zoom */
+    background: transparent;
+    border: none;
+    outline: none;
+  }
+  .search-btn {
+    font-size: 1.2rem;
+    color: var(--on-surface-var);
+    padding: 0.25rem;
+  }
+  .search-btn:active {
+    color: var(--primary);
+  }
+
+  /* 5.  mobile drawer slide-in */
+  .mobile-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    display: none;
+    z-index: 1210;
+  }
+  .mobile-panel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 78%;
+    max-width: 300px;
+    background: var(--surface);
+    box-shadow: var(--shadow-lg);
+    transform: translateX(-102%);
+    transition: transform 0.3s ease;
+    z-index: 1220;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .mobile-panel.open {
+    transform: translateX(0);
+  }
+  .mobile-panel a {
+    padding: 0.6rem 0;
+    font-size: 1rem;
+    border-radius: 6px;
+    transition: background var(--transition);
+  }
+  .mobile-panel a:active {
+    background: var(--primary-light);
+  }
+  #mobileClose {
+    align-self: flex-end;
+    width: 40px;
+    height: 40px;
+    font-size: 1.4rem;
+  }
+
+  /* 6.  grids → 1 column */
+  .mega-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .product-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  /* 7.  full-width CTA buttons */
+  .contact-form button {
+    width: 100%;
+    padding: 0.85rem;
+  }
+
+  /* 8.  smaller slider arrows */
+  .slider .prev,
+  .slider .next {
+    width: 36px;
+    height: 36px;
+    font-size: 1.2rem;
+  }
+  .slider-caption {
+    font-size: 0.8rem;
+    padding: 0.5rem 0.75rem;
+  }
+
+  /* 9.  smaller WhatsApp floater */
+  .whatsapp-button {
+    width: 50px;
+    height: 50px;
+    font-size: 1.4rem;
+    bottom: 16px;
+    right: 16px;
+  }
+
+  /* 10.  motion safety */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+}/* ==========================================================
+   FORCE DESKTOP  –  kill hamburger + drawer  (≥ 993 px)
+   ========================================================== */
+@media (min-width: 993px) {
+  .menu-toggle,
+  #mobileOverlay,
+  #mobilePanel,
+  #mobileClose {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none;
+  }
+  /* make sure desktop nav is visible */
+  .nav-center {
+    display: flex !important;
+    align-items: center;
+    gap: 1.5rem;
+  }
+}
+/* ==========================================================
+   MOBILE  –  stop navbar overflow  (≤ 992 px)
+   ========================================================== */
+@media (max-width: 992px) {
+  /* 1.  keep everything on one row */
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 64px;
+    padding: 0 .5rem;
+    gap: 4px; /* tighter gap */
+    flex-wrap: nowrap !important;
+    overflow: hidden;
+  }
+
+  /* 2.  logo never wraps */
+  .logo {
+    font-size: 1.1rem; /* slightly smaller */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-shrink: 1;
+    min-width: 0;
+  }
+
+  /* 3.  hamburger fixed size */
+  .menu-toggle {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    font-size: 1.5rem;
+    padding: 0;
+    margin: 0;
+  }
+
+  /* 4.  right icons row – no wrap */
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    flex-shrink: 0;
+  }
+  .icon-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+    padding: 0;
+  }
+
+  /* 5.  search bar stays below header (already sticky) */
+  .search-wrap {
+    position: sticky;
+    top: 64px;
+    z-index: 1190;
+    width: 100%;
+    border-radius: 0;
+    padding: .5rem .75rem;
+  }
+}
+/* inside the same  ≤ 992 px  block */
+.nav-right .icon-btn{ display: grid !important; } /* show PDF + call */
+.logo { max-width: 40vw; } /* stop logo eating space */
+
+/* ==========================================================
+   MOBILE DRAWER  –  modern spaced menu  (≤ 992 px)
+   ========================================================== */
+@media (max-width: 992px) {
+  .mobile-panel {
+    gap: 0; /* remove default gap */
+  }
+  /* each link block */
+  .mobile-panel a {
+    display: flex;
+    align-items: center;
+    padding: 14px 12px;
+    margin: 4px 0;
+    font-size: 1.05rem;
+    font-weight: 500;
+    border-radius: 8px;
+    transition: background .2s;
+  }
+  .mobile-panel a:active {
+    background: var(--primary-light);
+    color: var(--primary-dark);
+  }
+  /* subtle separator between major items */
+  .mobile-panel a:nth-child(4),
+  .mobile-panel a:nth-child(7) {
+    border-bottom: 1px solid var(--outline);
+    margin-bottom: 8px;
+    padding-bottom: 16px;
+  }
+  /* close button still top-right */
+  #mobileClose {
+    margin-bottom: 12px;
+  }
+}
+
+.motors-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 26px;
+  margin-top: 24px;
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .motors-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 22px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .motors-grid {
+    grid-template-columns: repeat(1, 1fr);
+    gap: 18px;
+  }
+}
+
+/* ================================
+   MOTOR CARD STYLE
+   ================================ */
+
+.motor-card {
+  background: linear-gradient(180deg, #ffffff, #f9fafb);
+  border-radius: 16px;
+  padding: 18px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.motor-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.12);
+  border-color: #2563eb;
+}
+
+/* ================================
+   MOTOR IMAGE
+   ================================ */
+
+.motor-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: contain;
+  margin-bottom: 14px;
+}
+
+/* ================================
+   MOTOR TITLE
+   ================================ */
+
+.motor-card h3 {
+  font-size: 17px;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 10px;
+}
+
+/* ================================
+   MOTOR SPECS
+   ================================ */
+
+.motor-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 14px;
+  font-size: 14px;
+  color: #374151;
+}
+
+.motor-card ul li {
+  padding: 4px 0;
+}
+
+/* ================================
+   BUTTON AREA
+   ================================ */
+
+.button-container {
+  margin-top: auto;
+  display: flex;
+  gap: 10px;
+}
+
+.more-details,
+.buy-button {
+  flex: 1;
+  text-align: center;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+
+/* More Details Button */
+.more-details {
+  background: #f3f4f6;
+  color: #1f2937;
+}
+
+.more-details:hover {
+  background: #e5e7eb;
+}
+
+/* Buy Now Button */
+.buy-button {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.buy-button:hover {
+  background: #1e7f43;
+}
+
+/* ================================
+   MOBILE SIZE TWEAKS (UNCHANGED)
+   ================================ */
+
+@media (max-width: 600px) {
+
+  .motor-card img {
+    height: 170px;
+  }
+
+  .motor-card h3 {
+    font-size: 16px;
+  }
+  .button-container {
+    flex-direction: column; /* stack buttons */
+    gap: 6px;
+  }
+
+  .more-details,
+  .buy-button {
+    font-size: 12px;
+    padding: 8px 6px;
+    border-radius: 6px;
+  }
+  
+}
+
+/* ==================================================
+   FORCE SAME DESKTOP HOVER EFFECT ON MOBILE (ADDED)
+   ================================================== */
+
+@media (hover: none) and (pointer: coarse) {
+
+  .motor-card:active,
+  .motor-card:focus-within {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.12);
+    border-color: #2563eb;
+  }
+
+  .more-details:active {
+    background: #e5e7eb;
+  }
+
+  .buy-button:active {
+    background: #1e7f43;
+  }
+}
+
+/* Remove mobile tap highlight */
+.motor-card,
+.more-details,
+.buy-button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ===== Animation ===== */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+/* =====================================
+   HERO SECTION – PROFESSIONAL VERSION
+   ===================================== */
+
+/* Outer white spacing */
+.image-text-wrapper {
+  background: #ffffff;
+  padding: 60px 0;
+}
+
+/* Main hero box */
+.image-text-section {
+  position: relative;
+  width: 90%;
+  max-width: 1300px;
+  height: 65vh;
+  margin: auto;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.15);
+}
+
+/* Background image */
+.image-text-section img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.85);
+}
+
+/* Gradient overlay instead of dark black */
+.image-text {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.75) 0%,
+    rgba(0, 0, 0, 0.45) 45%,
+    rgba(0, 0, 0, 0.15) 100%
+  );
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 60px;
+  color: #ffffff;
+}
+
+/* Headings */
+.image-text h1 {
+  font-size: 42px;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 12px;
+  max-width: 720px;
+}
+
+/* Subtitle */
+.image-text p {
+  font-size: 18px;
+  line-height: 1.6;
+  max-width: 620px;
+  color: #e5e7eb;
+}
+
+/* =====================================
+   MOBILE OPTIMIZATION
+   ===================================== */
+@media (max-width: 768px) {
+
+  .image-text-section {
+    height: 50vh;
+    width: 95%;
+  }
+
+  .image-text {
+    padding: 0 20px;
+    text-align: center;
+    align-items: center;
+  }
+
+  .image-text h1 {
+    font-size: 26px;
+  }
+
+  .image-text p {
+    font-size: 15px;
+  }
+}
+
+
+
+/* ================================
+   MOBILE MENU – GROUP (UNIFIED)
+   ================================ */
+
+.mobile-panel .group {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 8px;
+  margin-bottom: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+}
+
+/* Simple menu links (Home, About, Contact, FAQ) */
+.mobile-panel .group > a {
+  display: block;
+  padding: 12px 14px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #111827;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+.mobile-panel .group > a:hover,
+.mobile-panel .group > a:active {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+/* Products title */
+.mobile-panel .group-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #6b7280;
+  padding: 8px 12px;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+
+/* Toggle links (brand accordion) */
+.mobile-panel .toggle-link {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 14px;
+  margin-bottom: 6px;
+  background: #f9fafb;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #111827;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+/* Arrow */
+.mobile-panel .toggle-link span {
+  font-size: 18px;
+  transition: transform 0.25s ease;
+}
+
+/* Toggle active */
+.mobile-panel .toggle-link.active {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.mobile-panel .toggle-link.active span {
+  transform: rotate(90deg);
+}
+
+/* Sub menu */
+.mobile-panel .sub {
+  display: none;
+  padding-left: 10px;
+  margin-bottom: 10px;
+  border-left: 2px solid #e5e7eb;
+}
+
+.mobile-panel .toggle-link.active + .sub {
+  display: block;
+}
+
+.mobile-panel .sub a {
+  display: block;
+  padding: 9px 12px;
+  font-size: 14px;
+  color: #374151;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: background 0.2s ease;
+}
+
+.mobile-panel .sub a:hover,
+.mobile-panel .sub a:active {
+  background: #e5e7eb;
+  color: #111827;
+}
+
+/* Remove tap highlight */
+.mobile-panel a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+
+#backToTop {
+  position: fixed;
+  bottom: 90px;
+  right: 25px;
+  width: 50px;
+  height: 42px;
+  border-radius: 50%;
+  border: none;
+  background: #0f4c81;   /* professional blue */
+  color: #fff;
+  font-size: 18px;
+  cursor: pointer;
+  display: none;
+  z-index: 1000;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+#backToTop:hover {
+  transform: translateY(-3px);
+}
+@media (max-width: 480px) {
+  #backToTop {
+    right: 15px;
+    bottom: 70px; /* above WhatsApp button */
+  }
+}
+/* ----------  HIDE TOP-BAR WHEN DRAWER IS OPEN  ---------- */
+@media (max-width: 992px) {
+  body:has(.mobile-panel.open) .top-bar {
+    display: none !important;
+  }
+}
